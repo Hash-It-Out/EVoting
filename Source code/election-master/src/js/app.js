@@ -81,21 +81,140 @@ App = {
       var candidatesSelect = $('#candidatesSelect');
       candidatesSelect.empty();
 
+      var labels_array=["mihir","devansh"];
+      var data_array=[10,5];
+
       for (var i = 1; i <= candidatesCount; i++) {
         electionInstance.candidates(i).then(function(candidate) {
           var id = candidate[0];
           var name = candidate[1];
           var voteCount = candidate[2];
 
+          /*labels_array.push(name);
+          data_array.push(voteCount);*/
+
+
           // Render candidate Result
-          var candidateTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + voteCount + "</td></tr>"
-          candidatesResults.append(candidateTemplate);
+          /*var candidateTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + voteCount + "</td></tr>"
+          candidatesResults.append(candidateTemplate);*/
 
           // Render candidate ballot option
-          var candidateOption = "<option value='" + id + "' >" + name + "</ option>"
+          var candidateOption =  `
+          <div class="card" style="background-color:cyan"; border-radius: 20%;>
+        <div class="card-image">
+          <img src="test.jpg" class="card-img" style="border-radius: 20%;">
+          <span class="card-title"></span>
+          <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons" style="font-size: 12px;">VOTE</i></a>
+        </div>
+        <div class="card-content">
+          <h4>` + name + `</h4>
+          <p>Party: BJP</p><img src="party.jpg">
+        </div>
+      </div>`;
           candidatesSelect.append(candidateOption);
         });
       }
+
+      var ctx = document.getElementById('myChart').getContext('2d');
+      var chart = new Chart(ctx, {
+      type: 'bar',
+      data:{
+          labels:labels_array,
+          datasets:[{
+            label:'# of Votes',
+            data: data_array,
+            backgroundColor:[
+              'rgba(255, 99, 132, 0.6)',
+              'rgba(54, 162, 235, 0.6)',
+              'rgba(255, 206, 86, 0.6)',
+              'rgba(75, 192, 192, 0.6)',
+              'rgba(153, 102, 255, 0.6)',
+              'rgba(255, 159, 64, 0.6)',
+              'rgba(255, 99, 132, 0.6)'
+            ],
+            borderWidth:1,
+            borderColor:'#777',
+            hoverBorderWidth:3,
+            hoverBorderColor:'#000'
+          }]
+        },
+      options:{
+          title:{
+            display:true,
+            text:"Each Candidate's Vote(s)",
+            fontSize:25
+          },
+          legend:{
+            display:true,
+            position:'right',
+            labels:{
+              fontColor:'#000'
+            }
+          },
+          layout:{
+            padding:{
+              left:50,
+              right:0,
+              bottom:0,
+              top:0
+            }
+          },
+          tooltips:{
+            enabled:true
+          }
+        }
+  });
+
+      var ctx = document.getElementById('myChart1').getContext('2d');
+      var chart = new Chart(ctx, {
+          type: 'pie',
+          data:{
+              labels:labels_array,
+              datasets:[{
+                label:'# of Votes',
+                data: data_array,
+                backgroundColor:[
+                  'rgba(255, 99, 132, 0.6)',
+                  'rgba(54, 162, 235, 0.6)',
+                  'rgba(255, 206, 86, 0.6)',
+                  'rgba(75, 192, 192, 0.6)',
+                  'rgba(153, 102, 255, 0.6)',
+                  'rgba(255, 159, 64, 0.6)',
+                  'rgba(255, 99, 132, 0.6)'
+                ],
+                borderWidth:1,
+                borderColor:'#777',
+                hoverBorderWidth:3,
+                hoverBorderColor:'#000'
+              }]
+            },
+
+          options:{
+              title:{
+                display:true,
+                text:'Vote Share',
+                fontSize:25
+              },
+              legend:{
+                display:true,
+                position:'right',
+                labels:{
+                  fontColor:'#000'
+                }
+              },
+              layout:{
+                padding:{
+                  left:50,
+                  right:0,
+                  bottom:0,
+                  top:0
+                }
+              },
+              tooltips:{
+                enabled:true
+              }
+            }
+      });
       return electionInstance.voters(App.account);
     }).then(function(hasVoted) {
       // Do not allow a user to vote

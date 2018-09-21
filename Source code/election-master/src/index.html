@@ -1,4 +1,4 @@
-- 6<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -6,6 +6,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Election Results</title>
+
+    <style>
+
+      img {
+        border-radius: 50%;
+      }
+
+      .card {
+        display: inline-block;
+        width: 40%;
+        padding: 20px;
+        margin: 20px !important;
+      }
+
+      /* Clear floats after image containers */
+      .form-control::after {
+        content: "";
+        clear: both;
+        display: table;
+      }
+
+      .btn-floating{
+        padding-top: 10px;
+        width:85px;
+        height:85px;
+      }
+
+      .text-center{
+        font-family: "Courier New";
+      }
+
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -17,12 +53,13 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body>
+  <body  style="background-color:gray;">
     <div class="container" style="width: 650px;">
       <div class="row">
         <div class="col-lg-12">
-          <h1 class="text-center">Election Results</h1>
-          <hr/>
+          <h1 class="text-center">Election</h1>
+          <p><a href="chart2.html">Check out the results here...</a></p>
+          <!--<hr/>
           <br/>
           <div id="loader">
             <p class="text-center">Loading...</p>
@@ -53,8 +90,19 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
 
+
+      <div id="candidatesSelect">
+            <form onSubmit="App.castVote(); return false;">
+              <div class="form-group">
+                <label for="candidatesSelect">Choose Your Candidate</label>
+                <div class="form-control" id="candidatesSelect">
+                </div>
+              </div>
+            </form>
+    </div>
+</div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
