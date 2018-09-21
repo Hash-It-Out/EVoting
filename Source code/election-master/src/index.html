@@ -5,20 +5,42 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Election Results</title>
+    <title>Election</title>
 
-    <style>
+     <style>
 
       img {
         border-radius: 50%;
       }
+
+      .create-btn{
+    font-weight: 400;
+    height: 30px;
+    align-items: center;
+    background:#fc4a1a;color:white;cursor: pointer; border-radius: 3px; width: 20%;text-align: center;border:none;
+    }
+    .create-btn:hover
+    {
+      background-color:#fff !important;
+      border:1px solid #fc4a1a; 
+      color:#fc4a1a;
+      transition:all linear 0.1s; 
+
+    }
 
       .card {
         display: inline-block;
         width: 40%;
         padding: 20px;
         margin: 20px !important;
+    border-radius:20px !important;
+    box-shadow:3px 5px 5px rgb(0,0,0,0.5) !important;
       }
+
+      .card-content{
+        padding-bottom: 5px !important;
+      }
+
 
       /* Clear floats after image containers */
       .form-control::after {
@@ -53,18 +75,50 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body  style="background-color:gray;">
-    <div class="container" style="width: 650px;">
+  <body  style="background-color:#4abdac;">
+    <!--<div class="container" style="width: 650px;">
+      <div class="row">-->
+    <h1 class="text-center" style="color:#fff; font-weight: 1000 bold;font-family: times new roman; font-size: 60px;">Election 2018</h1>  
+    <div class="container main" style="width: 650px;">
       <div class="row">
         <div class="col-lg-12">
-          <h1 class="text-center">Election</h1>
-          <p><a href="chart2.html">Check out the results here...</a></p>
-          <!--<hr/>
+          <!--<p><a href="chart2.html" onClick="App.loadJs()">Check out the results here...</a></p>-->
+          <hr/>
           <br/>
           <div id="loader">
             <p class="text-center">Loading...</p>
           </div>
-          <div id="content" style="display: none;">
+          <div id="done">
+            <p class="text-center">Thanks for voting!</p>
+          </div>
+           <div id="content" >
+            <div id="candidatesSelect">
+                    <div class="form-group">
+                      <label for="candidatesSelect">Choose Your Candidate</label>
+                      <div class="form-control" id="candidatesSelect">
+                      </div>
+                    </div>
+                  </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="result">
+       <canvas id="myChart1" class="chart" style="height:50%;"></canvas>
+    </div>
+
+
+       <!-- <div class="col-lg-12">
+          <h1 class="text-center">Election</h1>
+          <p><a href="chart2.html">Check out the results here...</a></p>
+          <br/>
+          <div id="loader">
+            <p class="text-center">Loading...Please Wait!</p>
+          </div>
+          <div id="done">
+            <p class="text-center">Thanks for voting!</p>
+          </div>-->
+          <!--<div id="content" style="display: none;">
             <table class="table">
               <thead>
                 <tr>
@@ -90,21 +144,14 @@
           </div>
         </div>
       </div>
-    </div>-->
-
-
-      <div id="candidatesSelect">
-            <form onSubmit="App.castVote(); return false;">
-              <div class="form-group">
-                <label for="candidatesSelect">Choose Your Candidate</label>
-                <div class="form-control" id="candidatesSelect">
-                </div>
-              </div>
-            </form>
     </div>
-</div>
+
+   
+</div>-->
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/web3.min.js"></script>

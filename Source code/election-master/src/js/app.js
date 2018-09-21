@@ -58,9 +58,14 @@ App = {
     var electionInstance;
     var loader = $("#loader");
     var content = $("#content");
-
+    var done = $("#done");
+    var result=$(".result");
+    var main=$(".main");
+    main.show();
+    result.hide();
     loader.show();
     content.hide();
+    done.hide();
 
     // Load account data
     web3.eth.getCoinbase(function(err, account) {
@@ -81,8 +86,8 @@ App = {
       var candidatesSelect = $('#candidatesSelect');
       candidatesSelect.empty();
 
-      var labels_array=["mihir","devansh"];
-      var data_array=[10,5];
+      var labels_array=[];
+      var data_array=[];
 
       for (var i = 1; i <= candidatesCount; i++) {
         electionInstance.candidates(i).then(function(candidate) {
@@ -90,8 +95,8 @@ App = {
           var name = candidate[1];
           var voteCount = candidate[2];
 
-          /*labels_array.push(name);
-          data_array.push(voteCount);*/
+          labels_array.push(name);
+          data_array.push(voteCount);
 
 
           // Render candidate Result
@@ -100,22 +105,34 @@ App = {
 
           // Render candidate ballot option
           var candidateOption =  `
-          <div class="card" style="background-color:cyan"; border-radius: 20%;>
+          <div class="card" style="background-color:#fff;width:260px;height:auto;">
         <div class="card-image">
-          <img src="test.jpg" class="card-img" style="border-radius: 20%;">
-          <span class="card-title"></span>
-          <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons" style="font-size: 12px;">VOTE</i></a>
+        <style type="text/css">
+        #vote-but:hover
+        {
+          background-color:#fff !important;
+          border:1px solid #fc4a1a; 
+          color:#fc4a1a;
+          transition:all linear 0.1s; 
+
+        }
+        </style>
+          <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar" class="card-img" style="border: 0px solid; box-shadow: 0px 0px 15px #888888;border-radius: 10px;">
+          <button  id="vote-but"class="btn-floating halfway-fab waves-effect waves-light red"style="font-size:18px; background-color: #fc4a1a; font-weight: bold; height:60px;width:60px;" onClick="App.castVote(`+id+`); return false;">VOTE</button>
         </div>
         <div class="card-content">
-          <h4>` + name + `</h4>
-          <p>Party: BJP</p><img src="party.jpg">
+          <h4><u>` + name + `</u></h4>
+          <p style="padding-bottom:15px"><span style="font-weight:700">Party:</span> BJP  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+          <h3 style="text-align:center;">Party Symbol</h3>
+          <img src="party.jpg" style="display: block;margin-left: auto;margin-right: auto; width: 50%;">
         </div>
       </div>`;
+
           candidatesSelect.append(candidateOption);
         });
       }
 
-      var ctx = document.getElementById('myChart').getContext('2d');
+      /*var ctx = document.getElementById('myChart').getContext('2d');
       var chart = new Chart(ctx, {
       type: 'bar',
       data:{
@@ -214,33 +231,140 @@ App = {
                 enabled:true
               }
             }
-      });
+      });*/
+
+
       return electionInstance.voters(App.account);
     }).then(function(hasVoted) {
       // Do not allow a user to vote
       if(hasVoted) {
-        $('form').hide();
+        content.hide();
+        loader.hide();
+        var done = $("#done");
+        var resultLink =  `<p onClick="App.loadJs()">Check out the results here..</p>`;
+        done.append(resultLink);
+        done.show();
       }
-      loader.hide();
-      content.show();
+      else
+      {
+        loader.hide();
+        content.show();
+        done.hide();
+      }
     }).catch(function(error) {
       console.warn(error);
     });
   },
 
-  castVote: function() {
-    var candidateId = $('#candidatesSelect').val();
+  castVote: function(i) {
+    // var candidateId = $('#candidatesSelect').val();
+    var candidateId=i;
+    //console.log("value:",candidateId);
     App.contracts.Election.deployed().then(function(instance) {
       return instance.vote(candidateId, { from: App.account });
     }).then(function(result) {
       // Wait for votes to update
+      var done = $("#done");
+      var resultLink =  `<p onClick="App.loadJs()">Check out the results here...</p>`;
+      done.append(resultLink);
       $("#content").hide();
-      $("#loader").show();
+      $("#loader").hide();
+      done.show();
     }).catch(function(err) {
       console.error(err);
     });
+  },
+
+  loadJs: function(){
+    var result=$(".result");
+    var main=$(".main");
+
+    var labelss_array=[];
+    var datas_array=[];
+
+
+    App.contracts.Election.deployed().then(function(instance) {   //listing candidates
+      electionInstance = instance;
+      return electionInstance.candidatesCount();
+    }).then(function(candidatesCount) {
+      var candidatesResults = $("#candidatesResults");
+      candidatesResults.empty();
+
+      var candidatesSelect = $('#candidatesSelect');
+      candidatesSelect.empty();
+
+      for (var i = 1; i <= candidatesCount; i++) {
+        electionInstance.candidates(i).then(function(candidate) {
+          var id = candidate[0];
+          var name = candidate[1];
+          var voteCount = candidate[2];
+
+          labelss_array.push(name);
+          // console.log(name);
+          // console.log(labels_array[0])
+          datas_array.push(voteCount);
+        });
+      }
+    });
+
+    console.log(labelss_array[0]);
+    var ctx = document.getElementById('myChart1');
+    var chart = new Chart(ctx, {
+    type: 'pie',
+    data:{
+        labels:labelss_array,
+        datasets:[{
+          label:'# of Votes',
+          data: datas_array,
+          backgroundColor:[
+            'rgba(255, 99, 132, 0.6)',
+            'rgba(54, 162, 235, 0.6)',
+            'rgba(255, 206, 86, 0.6)',
+            'rgba(75, 192, 192, 0.6)',
+            'rgba(153, 102, 255, 0.6)',
+            'rgba(255, 159, 64, 0.6)',
+            'rgba(255, 99, 132, 0.6)'
+          ],
+          borderWidth:1,
+          borderColor:'#777',
+          hoverBorderWidth:3,
+          hoverBorderColor:'#000'
+        }]
+      },
+    options:{
+        title:{
+          display:true,
+          text:"Vote Share",
+          fontSize:20,
+        },
+        legend:{
+          display:true,
+          position:'right',
+          labels:{
+            fontColor:'#000'
+          }
+        },
+        layout:{
+          padding:{
+            left:25,
+            right:0,
+            bottom:0,
+            top:0
+          }
+        },
+        tooltips:{
+          enabled:true
+        }
+      }
+});
+
+    result.show();
+    main.hide();
+
   }
 };
+
+ // loadJs: function()
 
 $(function() {
   $(window).load(function() {
