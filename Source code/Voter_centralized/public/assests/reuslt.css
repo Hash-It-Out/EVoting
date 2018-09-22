@@ -1,0 +1,246 @@
+@keyframes beginOpacity {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+    }
+	
+		@keyframes bubble {
+    0% {
+			transform:scale(0);
+    }
+    50% {
+			transform:scale(1);
+    }
+    100% {
+			transform:scale(1);
+    }
+    }
+	
+		@keyframes title {
+    0% {
+      opacity:0;
+			font-size:6rem;
+    }
+    25% {
+      opacity:1;
+			font-size:6rem;
+    }
+    75% {
+      opacity:1;
+			font-size:6rem;
+    }
+    100% {
+      opacity:1;
+			font-size:4.2rem;
+    }
+    }
+	
+		@keyframes thumbBubble {
+    0% {
+			height:360px;
+			margin:30px 0;
+			transform:scale(1);
+    }
+    100% {
+			height:122px;
+			margin:0;
+			transform:scale(.34);
+    }
+    }
+	
+		@keyframes burst {
+    0% {
+      opacity:0;
+			transform:scale(0);
+    }
+    50% {
+      opacity:1;
+			transform:scale(1);
+    }
+    100% {
+      opacity:0;
+			transform:scale(2);
+    }
+    }
+	
+		@keyframes thumb {
+    0% {
+			transform:scale(0) rotate(0);
+    }
+    50% {
+			transform:scale(1) rotate(-5deg);
+    }
+    100% {
+			transform:scale(1) rotate(0);
+    }
+    }
+body{
+    background:rgba(74, 189, 172,1) !important; 
+		}	
+.tandc{
+	text-decoration: none;
+}
+.confirmationHeader {
+  margin-top:20px;
+}
+.bodyContents {
+  width:90%;
+  margin:0 auto;
+  text-align:center;
+}
+.bodyContents .contentContainer {
+  width:30%;
+  display:inline-block;
+  font-size:30px;
+  border-radius:3px;
+  background-color:#DBF5FF;
+  padding:30px 0;
+  margin:.25%;
+}
+		h1.confirmTitle {
+			font-family: 'Poppins', sans-serif;
+			font-weight:700;
+			text-align:center;
+			font-size:6rem;
+			animation-name: title;
+			animation-duration: 2s; 
+			animation-timing-function: ease-out;
+			animation-delay: 0s;
+			animation-iteration-count: 1;
+		  animation-fill-mode: forwards;
+      margin:0;
+		}
+	.text-center .progressSteps {
+		float:none;
+		display:inline-block;
+		opacity:0;
+		animation-name: beginOpacity;
+		animation-duration: .5s; 
+		animation-timing-function: ease-out; 
+		animation-delay: 0s;
+		animation-iteration-count: 1; 
+		animation-fill-mode: forwards;
+	}
+		.confirmationHeader {
+			text-align:center;
+			margin-bottom:36px;
+		}
+		.confirmationHeader .thumbsUp {
+			position:relative;
+			height:360px;
+			width:410px;
+			text-align:center;
+			display:inline-block;
+			margin:30px 0;
+			transform:scale(1);
+			transform-origin:bottom center;
+			animation-name: thumbBubble;
+			animation-duration: .5s;  
+			animation-timing-function: cubic-beziercubic-bezier(0.39, 0.575, 0.565, 1);
+			animation-delay: 1.5s;
+			animation-iteration-count: 1;
+		  animation-fill-mode: forwards;
+		}
+		.confirmationHeader .thumbsUp img {
+			display:inline-block;
+			position:absolute;
+			width:auto;
+			height:100%;
+			bottom:0;
+			left:0;
+		}
+		.confirmationHeader .thumbsUp img.shadow {
+			width:100%;
+			height:auto;
+			display:inline-block;
+			opacity:0;
+			animation-name: beginOpacity;
+			animation-duration: .5s; 
+			animation-timing-function: ease-out; 
+			animation-delay: 1s;
+			animation-iteration-count: 1; 
+			animation-fill-mode: forwards;
+		}
+	.confirmationHeader .thumbsUp img.bubble {
+		  width:100%;
+			height:auto;
+			transform:scale(0);
+			transform-origin:bottom center;
+			animation-name: bubble;
+			animation-duration: 1s; 
+			animation-delay: 0;
+			animation-timing-function: ease-out;
+			animation-iteration-count: 1;
+		  animation-fill-mode: forwards;
+		
+	}
+		.confirmationHeader .thumbsUp img.burst {
+			opacity:0;
+			left:30px;
+			transform:scale(0);
+			transform-origin:center center;
+			animation-name: burst;
+			animation-duration: .5s; 
+			animation-timing-function: ease-out;
+			animation-iteration-count: 1;
+		  animation-fill-mode: forwards;
+		}
+		.confirmationHeader .thumbsUp img.burst.one {
+			animation-delay: 1s;
+		}
+		.confirmationHeader .thumbsUp img.burst.two {
+			animation-delay: 1.25s;
+		}
+		.confirmationHeader .thumbsUp img.thumb {
+			width:218px;
+			height:auto;
+			bottom:104px;
+			left:100px;
+			transform:scale(0) rotate(0);
+			transform-origin:bottom left;
+			animation-name: thumb;
+			animation-duration: 1s; 
+			animation-timing-function: ease-out; 
+			animation-delay: .5s;
+			animation-iteration-count: 1;
+		  animation-fill-mode: forwards;
+		}
+	.bodyContents {
+		opacity:0;
+		animation-name: beginOpacity;
+		animation-duration: .5s; 
+		animation-timing-function: ease-out; 
+		animation-delay: 1.5s;
+		animation-iteration-count: 1; 
+		animation-fill-mode: forwards;		
+	}	
+	@media only screen and (max-width: 480px) {
+		@keyframes thumbBubble {
+    0% {
+			height:266px;
+			margin:30px 0;
+			transform:scale(1);
+    }
+    100% {
+			height:122px;
+			margin:-20px 0 0;
+			transform:scale(.34);
+    }
+    }
+		.confirmationHeader .thumbsUp {
+			height:266px;
+			width:304px;
+			margin:5px 0;
+		}
+		h1.confirmTitle {
+			font-size:5.2rem;
+		}
+		.confirmationHeader .thumbsUp img.thumb {
+			width:162px;
+			bottom:78px;
+			left:75px;
+		}
+	}
