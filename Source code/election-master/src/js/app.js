@@ -241,7 +241,7 @@ App = {
         content.hide();
         loader.hide();
         var done = $("#done");
-        var resultLink =  `<p onClick="App.loadJs()">Check out the results here..</p>`;
+        var resultLink =  `<div style="margin-left:30%;"><button style="background-image: linear-gradient(to top, #12eaf4, #00f1ea, #00f6dc, #00fbc8, #1cffb0);"><a href="chart2.html" style="color:#000;text-decoration:none;font-size:25px;">Check out the results here...</a></button></div>`;
         done.append(resultLink);
         done.show();
       }
@@ -265,7 +265,7 @@ App = {
     }).then(function(result) {
       // Wait for votes to update
       var done = $("#done");
-      var resultLink =  `<p onClick="App.loadJs()">Check out the results here...</p>`;
+      var resultLink =  `<div style="margin-left:30%;"><button onClick="App.loadJs()" style="background-image: linear-gradient(to top, #12eaf4, #00f1ea, #00f6dc, #00fbc8, #1cffb0);">Check out the results here...</button></div>`;
       done.append(resultLink);
       $("#content").hide();
       $("#loader").hide();

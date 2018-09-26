@@ -1,3 +1,5 @@
+var candidatesResults;
+
 App = {
   web3Provider: null,
   contracts: {},
@@ -23,11 +25,11 @@ App = {
   },
 
   initContract: function() {
-    $.getJSON("Election.json", function(election) {
+    $.getJSON("Candidate.json", function(election) {
       // Instantiate a new truffle contract from the artifact
-      App.contracts.Election = TruffleContract(election);
+      App.contracts.Candidate = TruffleContract(election);
       // Connect provider to interact with contract
-      App.contracts.Election.setProvider(App.web3Provider);
+      App.contracts.Candidate.setProvider(App.web3Provider);
 
       // App.listenForEvents();
 
@@ -35,36 +37,30 @@ App = {
     });
   },
 
-  // Listen for events emitted from the contract
-  listenForEvents: function() {
+  // // Listen for events emitted from the contract
+  // listenForEvents: function() {
 
-    App.contracts.Election.deployed().then(function(instance) {
-      // Restart Chrome if you are unable to receive this event
-      // This is a known issue with Metamask
-      // https://github.com/MetaMask/metamask-extension/issues/2393
-      instance.votedEvent({}, {
-        fromBlock: 0,
-        toBlock: 'latest'
-      }).watch(function(error, event) {
-        console.log("event triggered", event)
-        // Reload when a new vote is recorded
+  //   App.contracts.Candidate.deployed().then(function(instance) {
+  //     // Restart Chrome if you are unable to receive this event
+  //     // This is a known issue with Metamask
+  //     // https://github.com/MetaMask/metamask-extension/issues/2393
+  //     instance.votedEvent({}, {
+  //       fromBlock: 0,
+  //       toBlock: 'latest'
+  //     }).watch(function(error, event) {
+  //       console.log("event triggered", event)
+  //       // Reload when a new vote is recorded
       
-      });
-    });
-    return App.render();
-  },
+  //     });
+  //   });
+  //   return App.render();
+  // },
 
   render: function() {
-    var electionInstance;
-    var loader = $("#loader");
-    var content = $("#content");
-    var done = $("#done");
-    var result=$(".result");
-    var main=$(".main");
+    var candidateInstance;
+    var done=$("#done");
+    var main=$("#main");
     main.show();
-    result.hide();
-    loader.show();
-    content.hide();
     done.hide();
 
     // Load account data
@@ -76,179 +72,34 @@ App = {
     });
 
     // Load contract data
-    App.contracts.Election.deployed().then(function(instance) {   //listing candidates
-      electionInstance = instance;
-      return electionInstance.candidatesCount();
+    App.contracts.Candidate.deployed().then(function(instance) {   //listing candidates
+      candidateInstance = instance;
+      return candidateInstance.candidatesCount();
     }).then(function(candidatesCount) {
-      var candidatesResults = $("#candidatesResults");
-      candidatesResults.empty();
-
-      var candidatesSelect = $('#candidatesSelect');
-      candidatesSelect.empty();
-
-      var labels_array=[];
-      var data_array=[];
+      candidatesResults = [];
+      candidatesResults.splice(0,candidatesResults.length);
 
       for (var i = 1; i <= candidatesCount; i++) {
-        electionInstance.candidates(i).then(function(candidate) {
-          var id = candidate[0];
-          var name = candidate[1];
-          var voteCount = candidate[2];
+        candidateInstance.candidates(i).then(function(candidate) {
+          // var id = candidate[0];
+          // var name = candidate[1];
 
-          labels_array.push(name);
-          data_array.push(voteCount);
-
-
+          var aadhar = candidate[4];
           // Render candidate Result
-          /*var candidateTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + voteCount + "</td></tr>"
-          candidatesResults.append(candidateTemplate);*/
+          candidatesResults.push(aadhar);
+          console.log(aadhar);
 
-          // Render candidate ballot option
-          var candidateOption =  `
-          <div class="card" style="background-color:#fff;width:260Px;height:auto;">
-        <div class="card-image">
-        <style type="text/css">
-        #vote-but:hover
-        {
-          background-color:#fff !important;
-          border:1px solid #fc4a1a; 
-          color:#fc4a1a;
-          transition:all linear 0.1s; 
-
-        }
-        </style>
-          <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar" class="card-img" style="border: 0px solid; box-shadow: 0px 0px 15px #888888;border-radius: 10px;">
-          <button  id="vote-but"class="btn-floating halfway-fab waves-effect waves-light red"style="font-size:18px; background-color: #fc4a1a; font-weight: bold; height:60px;width:60px;" onClick="App.castVote(`+id+`); return false;">VOTE</button>
-        </div>
-        <div class="card-content">
-          <h4><u>` + name + `</u></h4>
-          <p style="padding-bottom:15px"><span style="font-weight:700">Party:</span> BJP  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-          <h3 style="text-align:center;">Party Symbol</h3>
-          <img src="party.jpg" style="display: block;margin-left: auto;margin-right: auto; width: 50%;">
-        </div>
-      </div>`;
-
-          candidatesSelect.append(candidateOption);
         });
       }
-
-      /*var ctx = document.getElementById('myChart').getContext('2d');
-      var chart = new Chart(ctx, {
-      type: 'bar',
-      data:{
-          labels:labels_array,
-          datasets:[{
-            label:'# of Votes',
-            data: data_array,
-            backgroundColor:[
-              'rgba(255, 99, 132, 0.6)',
-              'rgba(54, 162, 235, 0.6)',
-              'rgba(255, 206, 86, 0.6)',
-              'rgba(75, 192, 192, 0.6)',
-              'rgba(153, 102, 255, 0.6)',
-              'rgba(255, 159, 64, 0.6)',
-              'rgba(255, 99, 132, 0.6)'
-            ],
-            borderWidth:1,
-            borderColor:'#777',
-            hoverBorderWidth:3,
-            hoverBorderColor:'#000'
-          }]
-        },
-      options:{
-          title:{
-            display:true,
-            text:"Each Candidate's Vote(s)",
-            fontSize:25
-          },
-          legend:{
-            display:true,
-            position:'right',
-            labels:{
-              fontColor:'#000'
-            }
-          },
-          layout:{
-            padding:{
-              left:50,
-              right:0,
-              bottom:0,
-              top:0
-            }
-          },
-          tooltips:{
-            enabled:true
-          }
-        }
-  });
-
-      var ctx = document.getElementById('myChart1').getContext('2d');
-      var chart = new Chart(ctx, {
-          type: 'pie',
-          data:{
-              labels:labels_array,
-              datasets:[{
-                label:'# of Votes',
-                data: data_array,
-                backgroundColor:[
-                  'rgba(255, 99, 132, 0.6)',
-                  'rgba(54, 162, 235, 0.6)',
-                  'rgba(255, 206, 86, 0.6)',
-                  'rgba(75, 192, 192, 0.6)',
-                  'rgba(153, 102, 255, 0.6)',
-                  'rgba(255, 159, 64, 0.6)',
-                  'rgba(255, 99, 132, 0.6)'
-                ],
-                borderWidth:1,
-                borderColor:'#777',
-                hoverBorderWidth:3,
-                hoverBorderColor:'#000'
-              }]
-            },
-
-          options:{
-              title:{
-                display:true,
-                text:'Vote Share',
-                fontSize:25
-              },
-              legend:{
-                display:true,
-                position:'right',
-                labels:{
-                  fontColor:'#000'
-                }
-              },
-              layout:{
-                padding:{
-                  left:50,
-                  right:0,
-                  bottom:0,
-                  top:0
-                }
-              },
-              tooltips:{
-                enabled:true
-              }
-            }
-      });*/
-
-
-      return electionInstance.voters(App.account);
-    }).then(function(hasVoted) {
-      // Do not allow a user to vote
-      if(hasVoted) {
-        content.hide();
-        loader.hide();
-        var done = $("#done");
-        var resultLink =  `<p onClick="App.loadJs()">Check out the results here..</p>`;
-        done.append(resultLink);
+      
+    }).then(function(isCandidate) {
+      if(isCandidate) {
+        main.hide();
         done.show();
       }
       else
       {
-        loader.hide();
-        content.show();
+        main.show();
         done.hide();
       }
     }).catch(function(error) {
@@ -256,112 +107,43 @@ App = {
     });
   },
 
-  castVote: function(i) {
-    // var candidateId = $('#candidatesSelect').val();
-    var candidateId=i;
-    //console.log("value:",candidateId);
-    App.contracts.Election.deployed().then(function(instance) {
-      return instance.vote(candidateId, { from: App.account });
+
+
+
+  AddCandidate: function() {
+    var candidateName = $('#name').val();
+    var candidateAge = $('#age').val();
+    var candidateGender = $('#gen').val();
+    var candidateVoterId = $('#vtrid').val();
+    var candidateAdharId = $('#adrid').val();
+    var candidateCrimeFile = $('#cmf').val();
+    var candidateItrFile = $('#itr').val();
+    var candidateimgFile = $('#imgf').val();
+
+//    console.log(candidateName + " " + candidateAge + " " + candidateGender + " " + candidateVoterId + " " + candidateAdharId + " " + candidateCrimeFile + " " + candidateItrFile + " " + candidateimgFile);
+
+    App.contracts.Candidate.deployed().then(function(instance) {
+      console.log("in");
+      var flag=true;
+      for(var i=0;i<=candidatesResults.length;i++){
+        if (candidatesResults[i] === candidateAdharId )
+          flag=false;
+      }
+    if (flag == false){
+      alert("Candidate Already Registered");
+    }
+    else{
+      return instance.addCandidate(candidateName,candidateAge,candidateVoterId,candidateAdharId,true,true, { from: App.account });
+    }
     }).then(function(result) {
-      // Wait for votes to update
       var done = $("#done");
-      var resultLink =  `<p onClick="App.loadJs()">Check out the results here...</p>`;
-      done.append(resultLink);
-      $("#content").hide();
-      $("#loader").hide();
+      $("#main").hide();
       done.show();
     }).catch(function(err) {
       console.error(err);
     });
+  
   },
-
-  loadJs: function(){
-    var result=$(".result");
-    var main=$(".main");
-
-    var labelss_array=[];
-    var datas_array=[];
-
-
-    App.contracts.Election.deployed().then(function(instance) {   //listing candidates
-      electionInstance = instance;
-      return electionInstance.candidatesCount();
-    }).then(function(candidatesCount) {
-      var candidatesResults = $("#candidatesResults");
-      candidatesResults.empty();
-
-      var candidatesSelect = $('#candidatesSelect');
-      candidatesSelect.empty();
-
-      for (var i = 1; i <= candidatesCount; i++) {
-        electionInstance.candidates(i).then(function(candidate) {
-          var id = candidate[0];
-          var name = candidate[1];
-          var voteCount = candidate[2];
-
-          labelss_array.push(name);
-          // console.log(name);
-          // console.log(labels_array[0])
-          datas_array.push(voteCount);
-        });
-      }
-    });
-
-    console.log(labelss_array[0]);
-    var ctx = document.getElementById('myChart1');
-    var chart = new Chart(ctx, {
-    type: 'pie',
-    data:{
-        labels:labelss_array,
-        datasets:[{
-          label:'# of Votes',
-          data: datas_array,
-          backgroundColor:[
-            'rgba(255, 99, 132, 0.6)',
-            'rgba(54, 162, 235, 0.6)',
-            'rgba(255, 206, 86, 0.6)',
-            'rgba(75, 192, 192, 0.6)',
-            'rgba(153, 102, 255, 0.6)',
-            'rgba(255, 159, 64, 0.6)',
-            'rgba(255, 99, 132, 0.6)'
-          ],
-          borderWidth:1,
-          borderColor:'#777',
-          hoverBorderWidth:3,
-          hoverBorderColor:'#000'
-        }]
-      },
-    options:{
-        title:{
-          display:true,
-          text:"Vote Share",
-          fontSize:20,
-        },
-        legend:{
-          display:true,
-          position:'right',
-          labels:{
-            fontColor:'#000'
-          }
-        },
-        layout:{
-          padding:{
-            left:25,
-            right:0,
-            bottom:0,
-            top:0
-          }
-        },
-        tooltips:{
-          enabled:true
-        }
-      }
-});
-
-    result.show();
-    main.hide();
-
-  }
 };
 
  // loadJs: function()
