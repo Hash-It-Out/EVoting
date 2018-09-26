@@ -1,9 +1,5 @@
-<p align="center">
-  <a href="" rel="noopener">
- <img width=300px src="FakeLogo.PNG" alt="FakeNews-logo"></a>
-</p>
 
-<h3 align="center">E-Voting system.</h3>
+<h1 align="center">E-Voting system.</h1>
 
 ------------------------------------------
 
@@ -63,8 +59,8 @@ These fucntions are implemented using smart contracts written in solidity.We hav
 
 - [@priyamshah112](https://github.com/priyamshah112)
 - [@devanshslnk](https://github.com/devanshslnk)
--[@mihir-m-gandhi](https://github.com/mihir-m-gandhi)
--[@mihir-ms](https://github.com/mihir-ms)
+- [@mihir-m-gandhi](https://github.com/mihir-m-gandhi)
+- [@mihir-ms](https://github.com/mihir-ms)
 
 
 
