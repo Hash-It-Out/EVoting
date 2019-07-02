@@ -3,8 +3,7 @@
 
 ------------------------------------------
 
->In application is a decentralized e-voting system which is implenented using blockchain technology.In this system the voter can vote in a decenralized network and stay anonymous at the same time.Votes are counted on real time basis so there is no chance of any vote getting missed.
-These fucntions are implemented using smart contracts written in solidity.We have used ethereum blockchain network to implement this. 
+>Decentralized e-voting system is implemented using blockchain technology. In this system, the voter can vote in a decentralized network and stay anonymous at the same time. Votes are counted on a real time basis so there is no chance of any votes getting missed. These functions are implemented using smart contracts written in solidity. We have used the ethereum blockchain network to implement this.
 
 
 
