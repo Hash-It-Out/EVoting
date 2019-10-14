@@ -14,12 +14,6 @@
 - candidate regiteration using smart contracts.
 - Dynamic voting.
 
-<h3 > E-voting system</h3>
-<br>
-<p align="center">
-<img src ="Website.gif" width = 500px>
-</p>
-</div>
 
 ------------------------------------------
 
