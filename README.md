@@ -9,7 +9,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-<h4>A Blockchain-based voting system that aims to address many of the problems faced in today’s elections and promises new opportunities, from securing transparency, making the voting process more accessible, affordable and safe.</h4>
+<h4>A Blockchain-based voting system that aims to address many of the problems faced in today’s elections and promises new opportunities, from securing transparency, making the voting process more accessible, affordable, and safe.</h4>
 
 </div>
 
@@ -31,7 +31,7 @@
 ------------------------------------------
 ### Demo
 <p align="center">
-    <img height=400px src="./Demo.gif">
+    <img height=500px src="./Demo.gif">
 </p>
 
 
