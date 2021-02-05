@@ -38,8 +38,8 @@
 ------------------------------------------
 ### File Structure
 
-- `Voter_centralized` : Contains a voter registeration system which generated private and public keys for voters.
-- `election-master` : Contains a decentralized application for  voting system. 
+- `Voter_centralized` : Contains a voter registration system which generated private and public keys for voters.
+- `election-master` : Contains a decentralized application for voting system. 
 - `Candidate` : Contains a decentralized application for candidate registeration.
 
 ------------------------------------------
