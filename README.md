@@ -31,7 +31,7 @@
 ------------------------------------------
 ### Demo
 <p align="center">
-    <img height=400px src="./Demo.gif">
+    <img height=500px src="./Demo.gif">
 </p>
 
 
