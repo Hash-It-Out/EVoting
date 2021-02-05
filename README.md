@@ -50,7 +50,7 @@
 ```
 * Install dependencies
 ```sh
-        $ npm install
+      $ npm install
 ```
 
 ------------------------------------------
