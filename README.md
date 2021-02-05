@@ -9,7 +9,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-<h4></h4>
+<h4>A Blockchain-based voting system that aims to address many of the problems faced in today’s elections and promises new opportunities, from securing transparency, making the voting process more accessible, affordable and safe.</h4>
 
 </div>
 
@@ -23,9 +23,10 @@
 ------------------------------------------
 ### Features
 
-- Decentralized voting using ethereum.
-- candidate regiteration using smart contracts.
-- Dynamic voting.
+- `Decentralized Control` :  Lesser chance of unfair practices and errors due to **Immutability** and **Transparency**
+- `Reduced complications` : As compared to EVM or Ballot, complications are reduced
+- `Faster Results` : Enables real-time vote counting
+- `Retains benefits of the traditional systems` : Ensures anonymity of voters and provides improved security
 
 ------------------------------------------
 ### Demo
